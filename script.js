@@ -16,14 +16,19 @@ function createGrid(size = 32) {
 
     gridElement.classList = "grid-element";
 
-    gridElement.addEventListener("mousedown", (e) => {
+    document.addEventListener("mousedown", (e) => {
       e.preventDefault();
-      canDraw = true;
+      if (e.button === 0) {
+        canDraw = true;
+      }
     });
 
-    gridElement.addEventListener("mouseup", () => {
-      e.preventDefault();
+    document.addEventListener("mouseup", () => {
       canDraw = false;
+    });
+
+    window.addEventListener("blur", () => {
+      isMouseDown = false;
     });
 
     gridElement.addEventListener("mouseover", () => {
