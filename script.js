@@ -28,10 +28,10 @@ colorButtons.forEach((button) => {
     let previous = document.querySelector(".checked") || false;
 
     if (document.querySelector(".checked")) {
-      previous.classList -= " checked";
+      previous.classList.remove("checked");
     }
 
-    button.classList += " checked";
+    button.classList.add("checked");
   });
 });
 
