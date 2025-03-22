@@ -1,5 +1,18 @@
 var canDraw = false;
+var currentSize = 0;
 var colorTool = "Solid";
+
+const rangeElement = document.querySelector(".grid-size-range");
+
+rangeElement.addEventListener("change", () => {
+  modal(() => createGrid(rangeElement.value));
+});
+
+const clearButton = document.querySelector(".clear-button");
+
+clearButton.addEventListener("click", () => {
+  modal(() => clearGrid());
+});
 
 const colorButtons = document.querySelectorAll(".color-tool");
 
@@ -18,10 +31,17 @@ colorButtons.forEach((button) => {
 });
 
 function createGrid(size = 32) {
+  console.log(size);
   if (size < 16) size = 16;
   if (size > 100) size = 100;
 
+  currentSize = size;
+
   const gridContainer = document.querySelector(".grid-container");
+
+  let gridElements = gridContainer.querySelectorAll("div");
+
+  gridElements.forEach((element) => element.remove());
 
   gridContainer.style["grid-template-rows"] = `repeat(${size}, 1fr)`;
   gridContainer.style["grid-template-columns"] = `repeat(${size}, 1fr)`;
@@ -36,7 +56,6 @@ function createGrid(size = 32) {
     gridElement.style.background = "rgb(255, 255, 255)";
 
     document.addEventListener("mousedown", (e) => {
-      e.preventDefault(); // Affects the entire document
       if (e.button === 0) {
         canDraw = true;
       }
@@ -50,7 +69,8 @@ function createGrid(size = 32) {
       isMouseDown = false;
     });
 
-    gridElement.addEventListener("mousedown", () => {
+    gridElement.addEventListener("mousedown", (e) => {
+      e.preventDefault();
       gridElement.style.background = newElementColor(gridElement);
     });
 
@@ -64,7 +84,7 @@ function createGrid(size = 32) {
   }
 
   for (size > 0; size--; ) {
-    gridContainer.appendChild(createElement());
+    gridContainer.insertAdjacentElement("beforeend", createElement());
   }
 }
 
@@ -99,6 +119,35 @@ function newElementColor(element) {
     default:
       return "rgb(0, 0, 0)";
   }
+}
+
+function modal(onConfirm) {
+  if (!onConfirm) {
+    return;
+  }
+  const modalElement = document.querySelector(".modal");
+  const cancelButton = document.querySelector(".cancel-button");
+  const continueButton = document.querySelector(".continue-button");
+
+  modalElement.style.display = "block";
+
+  cancelButton.addEventListener(
+    "click",
+    () => {
+      modalElement.style.display = "none";
+      document.querySelector(".grid-size-range").value = currentSize;
+    },
+    { once: true }
+  );
+
+  continueButton.addEventListener(
+    "click",
+    () => {
+      modalElement.style.display = "none";
+      onConfirm();
+    },
+    { once: true }
+  );
 }
 
 createGrid();

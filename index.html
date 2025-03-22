@@ -1,22 +1,41 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Etch-a-Sketch</title>
-    <script defer src="script.js"></script>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="game">
-      <div class="tools-container">
-        <h1>Etch-a-Sketch</h1>
-        <button class="color-tool checked">Solid</button>
-        <button class="color-tool">Darker</button>
-        <button class="color-tool">Lighter</button>
-        <button class="color-tool">Rainbow</button>
-        <button onclick="clearGrid()">Clear</button>
-      </div>
-      <div class="grid-container"></div>
-    </div>
-  </body>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Etch-a-Sketch</title>
+	<script defer src="script.js"></script>
+	<link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+	<div class="modal">
+		<div class="modal-content">
+			<div class="modal-dialog prevent-select">Are you sure you want to do this?<br>
+				This will irreversibly clear the current canvas. <br>
+				<div class="modal-options">
+					<button class="cancel-button">Cancel</button>
+					<button class="continue-button">Continue</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="game">
+		<div class="tools-container prevent-select">
+			<h1>Etch-a-Sketch</h1>
+			<button class="color-tool checked">Solid</button>
+			<button class="color-tool">Darker</button>
+			<button class="color-tool">Lighter</button>
+			<button class="color-tool">Rainbow</button>
+			<button class="clear-button">Clear</button>
+			<div class="grid-size">
+				<label for="grid-size-range">16</label>
+				<input type="range" class="grid-size-range" name="grid-size-range" value="32" min="16" max="100" step="14" />
+				<label for="grid-size-range">100</label>
+			</div>
+		</div>
+		<div class="grid-container"></div>
+	</div>
+</body>
+
 </html>
