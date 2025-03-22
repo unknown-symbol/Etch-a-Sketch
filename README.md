@@ -6,7 +6,11 @@ An interactive web application that implements a classic mouse-controlled drawin
 
 ## Functionality
 
-- The user draws on the grid by swiping the cursor over the cells.
+- Draw on the grid by hover the cursor over the pixels.
+- A selection of drawing tools that allow you to paint black, darken pixels, lighten pixels, paint with random bright colors (rainbow)
+- Ability to clear the canvas.
+
+![alt text](preview.png)
 
 ## Some code
 
@@ -16,4 +20,25 @@ gridElement.addEventListener("mouseover", () => {
     gridElement.style.background = "black";
   }
 });
+```
+
+```javascript
+buttons.forEach((button) =>
+  button.addEventListener("click", () => {
+    colorTool = button.textContent;
+  })
+);
+```
+
+```javascript
+const currentColor = element.style.background
+  .replace("rgb(", "")
+  .replace(")", "")
+  .split(", ");
+
+let newColor = [];
+
+currentColor.forEach((color) => newColor.push(+color + 20));
+
+return `rgb(${newColor[0]}, ${newColor[1]}, ${newColor[2]})`;
 ```
