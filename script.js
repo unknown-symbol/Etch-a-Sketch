@@ -1,6 +1,7 @@
 var canDraw = false;
 var currentSize = 0;
 var colorTool = "Solid";
+var blankCanvas = true;
 
 const modalElement = document.querySelector(".modal");
 const cancelButton = document.querySelector(".cancel-button");
@@ -35,11 +36,12 @@ colorButtons.forEach((button) => {
 });
 
 function createGrid(size = 32) {
-  console.log(size);
   if (size < 16) size = 16;
   if (size > 100) size = 100;
 
   currentSize = size;
+
+  blankCanvas = true;
 
   const gridContainer = document.querySelector(".grid-container");
 
@@ -88,6 +90,15 @@ function createGrid(size = 32) {
         element.style.background = newElementColor(element);
       }
     });
+    element.addEventListener(
+      "mouseover",
+      () => {
+        if (canDraw) {
+          blankCanvas = false;
+        }
+      },
+      { once: true }
+    );
   });
 }
 
@@ -97,6 +108,8 @@ function clearGrid() {
   gridElements.forEach((element) => {
     element.style.background = "rgb(255, 255, 255)";
   });
+
+  blankCanvas = true;
 }
 
 function newElementColor(element) {
@@ -127,6 +140,10 @@ function newElementColor(element) {
 function modal(onConfirm) {
   if (!onConfirm) {
     return;
+  }
+
+  if (blankCanvas) {
+    return onConfirm();
   }
 
   continueButton.addEventListener(
