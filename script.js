@@ -2,24 +2,33 @@ var canDraw = false;
 var currentSize = 0;
 var colorTool = "Solid";
 var blankCanvas = true;
+var solidColor = "#000";
 
 const modalElement = document.querySelector(".modal");
 const cancelButton = document.querySelector(".cancel-button");
 const continueButton = document.querySelector(".continue-button");
-
+const colorPicker = document.querySelector(".color-picker");
 const rangeElement = document.querySelector(".grid-size-range");
+const clearButton = document.querySelector(".clear-button");
+const colorButtons = document.querySelectorAll(".color-tool");
+const solidColorButton = document.querySelector(".color-button");
+
+colorPicker.addEventListener("input", () => {
+  // colorPicker.style.background = colorPicker.value;
+  console.log(colorPicker.value);
+  solidColorButton.style[
+    "box-shadow"
+  ] = `inset 100px 0px 0px -60px ${colorPicker.value}`;
+  solidColor = colorPicker.value;
+});
 
 rangeElement.addEventListener("change", () => {
   modal(() => createGrid(rangeElement.value));
 });
 
-const clearButton = document.querySelector(".clear-button");
-
 clearButton.addEventListener("click", () => {
   modal(() => clearGrid());
 });
-
-const colorButtons = document.querySelectorAll(".color-tool");
 
 colorButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -106,7 +115,7 @@ function clearGrid() {
   const gridElements = document.querySelectorAll(".grid-element");
 
   gridElements.forEach((element) => {
-    element.style.background = "rgb(255, 255, 255)";
+    element.style.background = "#fff";
   });
 
   blankCanvas = true;
@@ -133,7 +142,7 @@ function newElementColor(element) {
       }
       return `rgb(${newColor[0]}, ${newColor[1]}, ${newColor[2]})`;
     default:
-      return "rgb(0, 0, 0)";
+      return solidColor;
   }
 }
 

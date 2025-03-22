@@ -7,7 +7,7 @@ An interactive web application that implements a classic mouse-controlled drawin
 ## Functionality
 
 - Draw on the grid by hover the cursor over the pixels.
-- A selection of drawing tools that allow you to paint black, darken pixels, lighten pixels, paint with random bright colors (rainbow)
+- A selection of drawing tools that allow you to paint any color, darken pixels, lighten pixels, paint with random bright colors (rainbow)
 - Ability to clear the canvas.
 
 ![alt text](preview.png)

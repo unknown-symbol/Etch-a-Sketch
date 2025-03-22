@@ -1,3 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+}
 body {
   font-family: Arial, Helvetica, sans-serif;
   background-color: #212121;
@@ -17,10 +24,31 @@ body {
   flex-direction: column;
   gap: 5px;
 }
+input,
+button {
+  cursor: pointer;
+}
+.color-picker {
+  position: absolute;
+  width: 40px;
+  border: 0;
+  border-radius: 0;
+  top: 0;
+  left: 0;
+}
+.color-picker::-webkit-color-swatch {
+  display: none;
+  border: none;
+}
+.color-button {
+  position: relative;
+}
 .tools-container > button {
   border: none;
+  box-sizing: border-box;
   font-size: 20px;
   font-weight: 600;
+  overflow: hidden;
   color: white;
   border-radius: 5px;
   background-color: #646464;
@@ -37,7 +65,6 @@ body {
 .tools-container > .checked {
   background-color: #f7f7f7;
   color: #212121;
-  box-sizing: border-box;
 }
 .grid-size {
   display: flex;
@@ -72,6 +99,7 @@ body {
   background-color: aliceblue;
 }
 .modal {
+  z-index: 10;
   display: none;
   position: fixed;
   background-color: #00000050;
