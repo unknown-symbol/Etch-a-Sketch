@@ -12,10 +12,9 @@ const rangeElement = document.querySelector(".grid-size-range");
 const clearButton = document.querySelector(".clear-button");
 const colorButtons = document.querySelectorAll(".color-tool");
 const solidColorButton = document.querySelector(".color-button");
+const gridContainer = document.querySelector(".grid-container");
 
 colorPicker.addEventListener("input", () => {
-  // colorPicker.style.background = colorPicker.value;
-  console.log(colorPicker.value);
   solidColorButton.style[
     "box-shadow"
   ] = `inset 100px 0px 0px -60px ${colorPicker.value}`;
@@ -51,8 +50,6 @@ function createGrid(size = 32) {
   currentSize = size;
 
   blankCanvas = true;
-
-  const gridContainer = document.querySelector(".grid-container");
 
   let gridElements = gridContainer.querySelectorAll("div");
 
@@ -94,11 +91,13 @@ function createGrid(size = 32) {
       e.preventDefault();
       element.style.background = newElementColor(element);
     });
+
     element.addEventListener("mouseover", () => {
       if (canDraw) {
         element.style.background = newElementColor(element);
       }
     });
+
     element.addEventListener(
       "mouseover",
       () => {
@@ -133,41 +132,40 @@ function newElementColor(element) {
     case "Darker":
       currentColor.forEach((color) => newColor.push(+color - 20));
       return `rgb(${newColor[0]}, ${newColor[1]}, ${newColor[2]})`;
+
     case "Lighter":
       currentColor.forEach((color) => newColor.push(+color + 20));
       return `rgb(${newColor[0]}, ${newColor[1]}, ${newColor[2]})`;
+
     case "Rainbow":
       for (let i = 0; i < 3; i++) {
         newColor[i] = Math.random() * 220 + 35;
       }
       return `rgb(${newColor[0]}, ${newColor[1]}, ${newColor[2]})`;
+
     default:
       return solidColor;
   }
 }
 
 function modal(onConfirm) {
-  if (!onConfirm) {
-    return;
-  }
+  if (!onConfirm) return;
+  if (blankCanvas) return onConfirm();
 
-  if (blankCanvas) {
-    return onConfirm();
-  }
+  cancelButton.addEventListener(
+    "click",
+    () => {
+      modalElement.style.display = "none";
+      rangeElement.value = currentSize;
+    },
+    { once: true }
+  );
 
   continueButton.addEventListener(
     "click",
     () => {
       modalElement.style.display = "none";
       onConfirm();
-    },
-    { once: true }
-  );
-  cancelButton.addEventListener(
-    "click",
-    () => {
-      modalElement.style.display = "none";
-      document.querySelector(".grid-size-range").value = currentSize;
     },
     { once: true }
   );
