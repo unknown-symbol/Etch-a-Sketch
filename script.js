@@ -2,6 +2,10 @@ var canDraw = false;
 var currentSize = 0;
 var colorTool = "Solid";
 
+const modalElement = document.querySelector(".modal");
+const cancelButton = document.querySelector(".cancel-button");
+const continueButton = document.querySelector(".continue-button");
+
 const rangeElement = document.querySelector(".grid-size-range");
 
 rangeElement.addEventListener("change", () => {
@@ -48,44 +52,43 @@ function createGrid(size = 32) {
 
   size = size * size;
 
-  function createElement() {
-    const gridElement = document.createElement("div");
+  for (size > 0; size--; ) {
+    let gridElement = document.createElement("div");
 
     gridElement.classList = "grid-element";
 
-    gridElement.style.background = "rgb(255, 255, 255)";
+    gridElement.style.background = "#fff";
 
-    document.addEventListener("mousedown", (e) => {
-      if (e.button === 0) {
-        canDraw = true;
-      }
-    });
+    gridContainer.insertAdjacentElement("beforeend", gridElement);
+  }
 
-    document.addEventListener("mouseup", () => {
-      canDraw = false;
-    });
+  gridElements = gridContainer.querySelectorAll("div");
 
-    window.addEventListener("blur", () => {
-      isMouseDown = false;
-    });
+  document.addEventListener("mousedown", (e) => {
+    if (e.button === 0) {
+      canDraw = true;
+    }
+  });
 
-    gridElement.addEventListener("mousedown", (e) => {
+  document.addEventListener("mouseup", () => {
+    canDraw = false;
+  });
+
+  window.addEventListener("blur", () => {
+    isMouseDown = false;
+  });
+
+  gridElements.forEach((element) => {
+    element.addEventListener("mousedown", (e) => {
       e.preventDefault();
-      gridElement.style.background = newElementColor(gridElement);
+      element.style.background = newElementColor(element);
     });
-
-    gridElement.addEventListener("mouseover", () => {
+    element.addEventListener("mouseover", () => {
       if (canDraw) {
-        gridElement.style.background = newElementColor(gridElement);
+        element.style.background = newElementColor(element);
       }
     });
-
-    return gridElement;
-  }
-
-  for (size > 0; size--; ) {
-    gridContainer.insertAdjacentElement("beforeend", createElement());
-  }
+  });
 }
 
 function clearGrid() {
@@ -125,20 +128,6 @@ function modal(onConfirm) {
   if (!onConfirm) {
     return;
   }
-  const modalElement = document.querySelector(".modal");
-  const cancelButton = document.querySelector(".cancel-button");
-  const continueButton = document.querySelector(".continue-button");
-
-  modalElement.style.display = "block";
-
-  cancelButton.addEventListener(
-    "click",
-    () => {
-      modalElement.style.display = "none";
-      document.querySelector(".grid-size-range").value = currentSize;
-    },
-    { once: true }
-  );
 
   continueButton.addEventListener(
     "click",
@@ -148,6 +137,16 @@ function modal(onConfirm) {
     },
     { once: true }
   );
+  cancelButton.addEventListener(
+    "click",
+    () => {
+      modalElement.style.display = "none";
+      document.querySelector(".grid-size-range").value = currentSize;
+    },
+    { once: true }
+  );
+
+  modalElement.style.display = "block";
 }
 
 createGrid();
